@@ -1,0 +1,190 @@
+/* --------- RESETS --------- */
+
+/* 1. Use a more-intuitive box-sizing model */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+  
+  /* 2. Remove default margin */
+* {
+    margin: 0;
+}
+  
+  /* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+      interpolate-size: allow-keywords;
+    }
+}
+  
+body {
+    /* 4. Add accessible line-height */
+    line-height: 1.5;
+    /* 5. Improve text rendering */
+    -webkit-font-smoothing: antialiased;
+}
+  
+  /* 6. Improve media defaults */
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+  
+  /* 7. Inherit fonts for form controls */
+input, button, textarea, select {
+    font: inherit;
+}
+  
+  /* 8. Avoid text overflows */
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+  
+  /* 9. Improve line wrapping */
+p {
+    text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+  
+  /*
+    10. Create a root stacking context
+  */
+#root, #__next {
+    isolation: isolate;
+}
+
+/* --------- Styling --------- */
+
+
+body {
+    height: 100vh;
+    background: linear-gradient(to bottom, #291909, #160E06);
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1000px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logo {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.logo-text {
+    font-size: 2.5rem;
+    letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+    color: #86541C;
+}
+
+.logo-tagline {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #AD8953;
+}
+
+.hero {
+    margin: 2rem 0 4rem;
+    max-width: 800px;
+}
+
+.hero-text {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    color: #a89a73;
+}
+
+.book-display {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: 2rem 0;
+}
+
+.open-book {
+    width: 400px;
+    height: auto;
+}
+
+.cta-button {
+    background: linear-gradient(to right, #be8c3c, #d9b166, #be8c3c);
+    color: #1a1307;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin: 2rem 0;
+    font-family: 'Garamond', serif;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.cta-button:hover {
+    background: linear-gradient(to right, #d9b166, #f0d799, #d9b166);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(222, 184, 135, 0.3);
+}
+
+.book-collection {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 2rem;
+    padding: 20px;
+    background: rgba(20, 16, 10, 0.8);
+    border: 5px solid #2b1f0b;
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
+
+.book {
+    width: 70px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.book:hover {
+    transform: translateY(-10px);
+}
+
+.book img {
+    width: 100%;
+    height: auto;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+}
+
+/* For better mobile experience */
+@media (max-width: 768px) {
+    .book-collection {
+        flex-wrap: wrap;
+    }
+    
+    .open-book {
+        width: 90%;
+    }
+}

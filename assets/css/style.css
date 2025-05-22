@@ -78,6 +78,106 @@ body {
     text-align: center;
 }
 
+/* Header */
+header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 0.75rem 1rem;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo img {
+    width: 7rem;
+    height: 7rem;
+}
+
+.header-logo h1 a {
+    color: #333;
+    font-size: 24px;
+}
+
+
+/* Burger menu */
+.burger-menu {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    z-index: 100;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    font-size: 24px;
+}
+
+.burger-menu i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.burger-menu .close-icon {
+    opacity: 0;
+}
+
+.burger-menu.active .menu-icon {
+    opacity: 0;
+}
+
+.burger-menu.active .close-icon {
+    opacity: 1;
+}
+
+/* Navigation */
+.main-nav {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100vh;
+    /* background-color: #F2F3F5; */
+    transition: right 0.3s ease;
+    z-index: 99;
+    padding-top: 60px;
+}
+
+.main-nav.active {
+    right: 0;
+}
+
+.main-nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.main-nav ul li {
+    width: 100%;
+    margin: 1rem 0;
+    list-style: none;
+}
+
+.main-nav ul li a {
+    padding: 0.5rem 1.5rem;
+    color: #A09553;
+    font-size: 18px;
+    display: block;
+}
+
+.cart-icon {
+    color: #A09553;
+    font-size: 28px;
+}
+
+/* Home page */
+
 .logo {
     margin-bottom: 2rem;
     display: flex;
@@ -187,4 +287,35 @@ body {
     .open-book {
         width: 90%;
     }
+}
+
+@media screen and (min-width: 968px) {
+    header {
+        width: 75%;
+        margin: 0 auto;
+    }
+
+    .burger-menu {
+        display: none;
+    }
+    
+    .main-nav {
+        position: static;
+        width: auto;
+        height: auto;
+        padding-top: 0;
+        right: 0;
+        margin-right: -8rem;
+    }
+
+    .main-nav ul {
+        flex-direction: row;
+        padding: 0;
+        align-items: center;
+    }
+
+    .main-nav ul li {
+        margin: 0 0 0 20px;
+        width: auto;
+    } 
 }

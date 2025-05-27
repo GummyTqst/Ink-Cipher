@@ -8,6 +8,7 @@
   /* 2. Remove default margin */
 * {
     margin: 0;
+    padding: 0;
 }
   
   /* 3. Enable keyword animations */
@@ -59,7 +60,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 body {
-    height: 100vh;
+    height: 100%;
     background: linear-gradient(to bottom, #291909, #160E06);
     background-repeat: no-repeat;
     display: flex;

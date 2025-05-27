@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/collection.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <title>Collection</title>
@@ -20,10 +21,10 @@
         <nav class="main-nav">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="oplevelser.html">Puzzles</a></li>
-                <li><a href="tilbud.html">Collection</a></li>
-                <li><a href="contact.html">Shop</a></li>
-                <li><a href="faq.html">My Progress</a></li>
+                <li><a href="puzzle.html">Puzzles</a></li>
+                <li><a href="collection.html">Collection</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="progress.html">My Progress</a></li>
             </ul>
         </nav>
 
@@ -31,8 +32,117 @@
             <i class="fa-solid fa-cart-shopping"></i>
         </div>
     </header>
-    <main>
 
+    <main class="container">
+        <h1>Collection</h1>
+
+        <section class="search-section">
+            <label for="book-search" class="visually-hidden">Search books</label>
+            <input type="search" id="book-search" class="search-box" placeholder="Search Books">
+        </section>
+
+            <section class="filters">
+                <label for="genre-filter" class="visually-hidden">Filter by genre</label>
+                <select id="genre-filter" class="filter-select">
+                    <option>All Genres</option>
+                    <option>Mystery</option>
+                    <option>Fantasy</option>
+                    <option>Romance</option>
+                </select>
+
+                <label for="status-filter" class="visually-hidden">Filter by status</label>
+                <select id="status-filter" class="filter-select">
+                    <option>All Status</option>
+                    <option>In Progress</option>
+                    <option>Completed</option>
+                    <option>Locked</option>
+                </select>
+
+                <label for="sort-select" class="visually-hidden">Sort books</label>
+                <select id="sort-select" class="filter-select">
+                    <option>Sort by</option>
+                    <option>Title</option>
+                    <option>Date Added</option>
+                    <option>Progress</option>
+                </select>
+            </section>
+
+            <section class="books-section">
+                <ul class="books-grid">
+                    <li class="book-card">
+                        <div>
+                            <figure class="book-cover">
+                                <img src="assets/img/thesilentgarden.png" alt="The Silent Garden book cover">
+                            </figure>
+                            <h2 class="book-title">The Silent Garden</h2>
+                            <p class="book-status">In Progress</p>
+                        </div>
+                    </li>
+
+                    <li class="book-card locked-card">
+                        <div>
+                            <figure class="book-cover">
+                                <img src="assets/img/thesilentgarden.png" alt="The Silent Garden book cover">
+                                <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
+                                <p class="unlock-text">Solve previous puzzle<br>to unlock</p>
+                            </figure>
+                            <h2 class="book-title">The Silent Garden</h2>
+                            <p class="book-status">Locked</p>
+                        </div>
+                    </li>
+
+                    <li class="book-card locked-card">
+                        <div>
+                            <figure class="book-cover">
+                                <img src="assets/img/thesilentgarden.png" alt="The Silent Garden book cover">
+                                <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
+                                <p class="unlock-text">Solve previous puzzle<br>to unlock</p>
+                            </figure>
+                            <h2 class="book-title">The Silent Garden</h2>
+                            <p class="book-status">Locked</p>
+                        </div>
+                    </li>
+
+                    <li class="book-card locked-card">
+                        <div>
+                            <figure class="book-cover">
+                                <img src="assets/img/thesilentgarden.png" alt="The Silent Garden book cover">
+                                <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
+                                <p class="unlock-text">Solve previous puzzle<br>to unlock</p>
+                            </figure>
+                            <h2 class="book-title">The Silent Garden</h2>
+                            <p class="book-status">Locked</p>
+                        </div>
+                    </li>
+
+                    <li class="book-card locked-card">
+                        <div>
+                            <figure class="book-cover">
+                                <img src="assets/img/thesilentgarden.png" alt="The Silent Garden book cover">
+                                <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
+                                <p class="unlock-text">Solve previous puzzle<br>to unlock</p>
+                            </figure>
+                            <h2 class="book-title">The Silent Garden</h2>
+                            <p class="book-status">Locked</p>
+                        </div>
+                    </li>
+
+                    <li class="book-card locked-card">
+                        <div>
+                            <figure class="book-cover">
+                                <img src="assets/img/thesilentgarden.png" alt="The Silent Garden book cover">
+                                <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
+                                <p class="unlock-text">Solve previous puzzle<br>to unlock</p>
+                            </figure>
+                            <h2 class="book-title">The Silent Garden</h2>
+                            <p class="book-status">Locked</p>
+                        </div>
+                    </li>
+
+                    
+
+                </ul>
+            </section>
     </main>
 
     <script src="assets/js/main.js" defer></script>

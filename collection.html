@@ -23,14 +23,14 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="puzzle.html">Puzzles</a></li>
                 <li><a href="collection.html">Collection</a></li>
-                <li><a href="shop.html">Shop</a></li>
+                <!-- <li><a href="shop.html">Shop</a></li> -->
                 <li><a href="progress.html">My Progress</a></li>
             </ul>
         </nav>
 
-        <div class="cart-icon">
+        <!-- <div class="cart-icon">
             <i class="fa-solid fa-cart-shopping"></i>
-        </div>
+        </div> -->
     </header>
 
     <main class="container">
@@ -69,13 +69,31 @@
 
             <section class="books-section">
                 <ul class="books-grid">
-                    <li class="book-card">
+                    <li class="book-card show-dialog">
                         <div>
                             <figure class="book-cover">
                                 <img src="assets/img/thesilentgarden.png" alt="The Silent Garden book cover">
                             </figure>
                             <h2 class="book-title">The Silent Garden</h2>
                             <p class="book-status">In Progress</p>
+                        </div>
+                        <div class="modal-content">
+                            <div class="modal-content-inner">
+                                <h1 class="puzzle-title">Solve the puzzle</h1>
+                                <p class="puzzle-subtitle">Answer the riddle below to proceed.</p>
+                                
+                                <div class="riddle-box">
+                                    <p class="riddle-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores nihil quam minima doloribus sequi nisi!</p>
+                                    <p class="riddle-question">Lorem ipsum</p>
+                                </div>
+                                
+                                <input type="text" class="answer-input" placeholder="Your answer">
+                                <button class="submit-btn">Submit</button>
+
+                                <div class="puzzle-count">
+                                    <p>Puzzle 1 of 6</p>
+                                </div>
+                            </div>
                         </div>
                     </li>
 
@@ -142,6 +160,11 @@
                     
 
                 </ul>
+
+                <dialog class="dialog" id="dialog">
+                    <i class="fa-solid fa-xmark close-dialog"></i>
+                    <div id="dialog-content">
+                </dialog>
             </section>
     </main>
 

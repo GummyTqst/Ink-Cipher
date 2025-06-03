@@ -96,14 +96,12 @@ const symbols = ['☀️', '♦️', '🌙', '💎', '💚'];
             generatePuzzle();
             const longInput = document.getElementById('longInput');
             longInput.value = '';
-            longInput.style.borderColor = '#d4af37';
         }
 
         // Add input event listener for the long input
         const longInput = document.getElementById('longInput');
         longInput.addEventListener('input', function() {
             this.value = this.value.toUpperCase();
-            this.style.borderColor = '#d4af37';
         });
 
         // Initialize puzzle

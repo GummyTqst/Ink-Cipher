@@ -146,6 +146,60 @@ button:hover {
     color: #FFB6C1;
 }
 
+
+/* Anagram */
+.letters {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #A09553;
+    letter-spacing: 10px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-width: 90vw;
+    margin: 0 auto 20px auto;
+}
+
+/* input[type="text"] {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    font-size: 5vw;
+    min-width: 40px;
+    max-width: 70px;
+    background-color: #a1783a;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    text-transform: uppercase;
+} */
+
+input[type="text"].valid-word {
+    background-color: #6dbb6d;
+    color: white;
+}
+
+#continueBtn {
+    background-color: #555;
+    color: #aaa;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  #continueBtn:enabled {
+    background-color: #6dbb6d;
+    color: white;
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  #continueBtn:hover:enabled {
+    background-color: #5ca95c;
+  }
+
 @media (max-width: 600px) {
     .symbols-display {
         gap: 20px;

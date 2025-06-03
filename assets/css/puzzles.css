@@ -1,15 +1,3 @@
-body {
-    background: linear-gradient(135deg, #2c1810, #4a3728);
-    color: #d4af37;
-    font-family: 'Georgia', serif;
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .container {
     max-width: 800px;
     width: 100%;
@@ -63,13 +51,13 @@ h1 {
 
 .long-input {
     background: rgba(42, 24, 16, 0.8);
-    border: 3px solid #d4af37;
+    border: 3px solid #502C07;
     color: #d4af37;
     border-radius: 8px;
     font-size: 1.5rem;
     padding: 15px;
     width: 100%;
-    min-width: 400px;
+    min-width: 100%;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 20px;
@@ -99,7 +87,7 @@ input[type="text"]:focus {
     grid-template-columns: repeat(7, 1fr);
     gap: 30px;
     margin-bottom: 30px;
-    padding: 40px 20px;
+    padding: 30px 20px;
 }
 
 .alphabet-cell {
@@ -109,7 +97,7 @@ input[type="text"]:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #d4af37;
+    color: #A09553;
 }
 
 .alphabet-letter {
@@ -125,7 +113,8 @@ input[type="text"]:focus {
 }
 
 button {
-    background: linear-gradient(135deg, #d4af37, #b8941f);
+    background: #B87A30;
+    /* background: linear-gradient(135deg, #d4af37, #b8941f); */
     color: #2c1810;
     border: none;
     padding: 12px 24px;
@@ -155,15 +144,6 @@ button:hover {
 
 .incorrect {
     color: #FFB6C1;
-}
-
-.instructions {
-    background: rgba(212, 175, 55, 0.1);
-    border: 2px solid #d4af37;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
 }
 
 @media (max-width: 600px) {

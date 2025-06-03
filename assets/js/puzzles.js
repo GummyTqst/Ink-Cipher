@@ -65,7 +65,7 @@ const symbols = ['☀️', '♦️', '🌙', '💎', '💚'];
             if (correct === total) {
                 longInput.style.borderColor = '#90EE90';
                 const feedback = document.getElementById('feedback');
-                feedback.textContent = '🎉 Congratulations! You solved the cipher! 🎉';
+                feedback.textContent = 'Congratulations! You solved the cipher!';
                 feedback.className = 'feedback correct';
             } else {
                 longInput.style.borderColor = '#FFB6C1';
@@ -75,22 +75,22 @@ const symbols = ['☀️', '♦️', '🌙', '💎', '💚'];
             }
         }
 
-        function showSolution() {
-            if (solutionVisible) return;
+        // function showSolution() {
+        //     if (solutionVisible) return;
 
-            const longInput = document.getElementById('longInput');
-            let solution = '';
-            for (let i = 0; i < symbols.length; i++) {
-                solution += symbolMapping[symbols[i]];
-            }
-            longInput.value = solution;
-            longInput.style.borderColor = '#d4af37';
+        //     const longInput = document.getElementById('longInput');
+        //     let solution = '';
+        //     for (let i = 0; i < symbols.length; i++) {
+        //         solution += symbolMapping[symbols[i]];
+        //     }
+        //     longInput.value = solution;
+        //     longInput.style.borderColor = '#d4af37';
 
-            const feedback = document.getElementById('feedback');
-            feedback.textContent = 'Solution revealed!';
-            feedback.className = 'feedback';
-            solutionVisible = true;
-        }
+        //     const feedback = document.getElementById('feedback');
+        //     feedback.textContent = 'Solution revealed!';
+        //     feedback.className = 'feedback';
+        //     solutionVisible = true;
+        // }
 
         function newPuzzle() {
             generatePuzzle();

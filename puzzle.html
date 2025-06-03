@@ -5,9 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/puzzles.css">
     <title>Puzzles</title>
 </head>
 <body>
-    
+    <div class="container">
+        <h1>Symbol Cipher Puzzle</h1>
+        
+        <div class="instructions">
+            <p>Each symbol below represents a letter in the alphabet. Figure out which letter each symbol represents by looking at the pattern in the grid below!</p>
+        </div>
+
+        <div class="symbols-display">
+            <div class="symbol" id="symbol1">☀️</div>
+            <div class="symbol" id="symbol2">♦️</div>
+            <div class="symbol" id="symbol3">🌙</div>
+            <div class="symbol" id="symbol4">💎</div>
+            <div class="symbol" id="symbol5">💚</div>
+        </div>
+
+        <div class="input-section">
+            <div class="symbols-row">
+                <span class="symbol-input">☀️</span>
+                <span class="symbol-input">♦️</span>
+                <span class="symbol-input">🌙</span>
+                <span class="symbol-input">💎</span>
+                <span class="symbol-input">💚</span>
+            </div>
+            <input type="text" class="long-input" id="longInput" maxlength="5" placeholder="_ _ _ _ _">
+        </div>
+
+        <div class="controls">
+            <button onclick="checkAnswers()">Check Answers</button>
+            <button onclick="showSolution()">Show Solution</button>
+            <button onclick="newPuzzle()">New Puzzle</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="alphabet-grid" id="alphabetGrid"></div>
+    </div>
+    <script src="assets/js/puzzles.js" defer></script>
 </body>
 </html>

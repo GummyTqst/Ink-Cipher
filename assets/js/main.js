@@ -93,7 +93,7 @@ function showHint() {
 }
 
 
-// ======== Puzzle Display Functions (show...Puzzle) ========
+// ======== Puzzle Display Functions ========
 
 function showMathPuzzle(container, puzzleData) {
     container.innerHTML = `
@@ -211,7 +211,7 @@ function showMemoryPuzzle(container, puzzleData) {
     setTimeout(() => initMemoryGame(shuffledCards), 100);
 }
 
-// ======== Puzzle Answer Checking Functions (check...Answer) ========
+// ======== Puzzle Answer Checking Functions ========
 
 function checkMathAnswer(correctAnswer) {
     const userAnswer = parseInt(document.getElementById('mathAnswer')?.value);
@@ -362,7 +362,6 @@ function closeModal() {
     if (modal) modal.close();
     saveBookProgress();
 }
-
 function showPuzzleUI(puzzleIndexInBook) {
     const bookData = bookProgress[`book${currentBookIndex}`];
     if (!bookData || !bookData.puzzles || puzzleIndexInBook >= bookData.puzzles.length) {
@@ -374,7 +373,7 @@ function showPuzzleUI(puzzleIndexInBook) {
         showCompletionUI();
         return;
     }
-
+    // Update current puzzle data and UI elements
     currentPuzzleData = bookData.puzzles[puzzleIndexInBook];
     if (puzzleTitleElement) puzzleTitleElement.textContent = currentPuzzleData.title || `Puzzle ${puzzleIndexInBook + 1}`;
     if (puzzleCounterElement) puzzleCounterElement.textContent = `${puzzleIndexInBook + 1} of ${bookData.puzzles.length}`;

@@ -31,7 +31,7 @@ function generateCipherPuzzle() {
     for (let i = 0; i < cipherSymbols.length; i++) {
         cipherSymbolMapping[cipherSymbols[i]] = shuffledAlphabet[i];
     }
-
+    // Display the cipher symbols mapping
     if (cipherAlphabetGrid) {
         cipherAlphabetGrid.innerHTML = '';
         alphabet.forEach((letter) => {
@@ -59,6 +59,7 @@ function checkCipherAnswer() {
 
     const userGuesses = cipherLongInput.value.toUpperCase().split('');
     
+    // Validate input length
     if (userGuesses.length !== cipherSymbols.length) {
         cipherFeedback.textContent = `Please enter exactly ${cipherSymbols.length} letters!`;
         cipherFeedback.className = 'feedback incorrect';
@@ -69,6 +70,7 @@ function checkCipherAnswer() {
     }
 
     let correctCount = 0;
+    // Check each user guess against the cipher mapping
     for (let i = 0; i < cipherSymbols.length; i++) {
         if (userGuesses[i] === cipherSymbolMapping[cipherSymbols[i]]) {
             correctCount++;
@@ -116,7 +118,7 @@ async function isValidAnagramWord(word) {
     if (anagramWordCache[word.toUpperCase()]) return anagramWordCache[word.toUpperCase()];
     try {
         if (word.length !== 5) return false; // Must be 5 letters
-        // Check if word is ANY valid English word from a API
+        // Check if word is any valid English word from a API
         const res = await fetch (`https://api.datamuse.com/words?sp=${word}&max=1`);
         const data = await res.json();
         const valid = data.length > 0 && data[0].word.toUpperCase() === word.toUpperCase();
@@ -146,6 +148,7 @@ async function validateAnagramRows() {
             rowIsValid = await isValidAnagramWord(word);
             if (rowIsValid) {
                 anyRowIsValid = true;
+                // Check if any valid word matches the anagram letters
                 isAnagramSolved = true; 
                 // if (word.toUpperCase() === currentAnagramSolutionWord) {
                 //     isAnagramSolved = true;
@@ -162,7 +165,7 @@ async function validateAnagramRows() {
             anagramFeedback.className = "feedback correct";
         } else if (anyRowIsValid) {
             anagramFeedback.textContent = "You found a valid word! Can you find the main one?";
-            anagramFeedback.className = "feedback"; // Neutral or slightly positive
+            anagramFeedback.className = "feedback";
         } else {
             anagramFeedback.textContent = ""; // Clear if no valid words yet
         }
@@ -174,7 +177,7 @@ function renderAnagramGrid() {
     if (!anagramGrid) return;
     isAnagramSolved = false; // Reset status
     anagramGrid.innerHTML = '';
-    for (let i = 0; i < 25; i++) { // 5x5 grid
+    for (let i = 0; i < 25; i++) { // Generate a 5x5 grid
         const input = document.createElement("input");
         input.type = "text";
         input.maxLength = 1;
@@ -182,7 +185,7 @@ function renderAnagramGrid() {
 
         input.addEventListener("input", (e) => {
             e.target.value = e.target.value.toUpperCase();
-            // Basic auto-tab to next input
+            // Auto-tab to next input
             if (e.target.value.length === 1) {
                 const currentInputIndex = getAnagramInputs().indexOf(e.target);
                 if (currentInputIndex < 24 && currentInputIndex % 5 < 4) { // Not last input in row or grid
@@ -209,14 +212,15 @@ async function generateAnagramPuzzle() {
     if (!anagramClueLettersDiv) return;
     isAnagramSolved = false; // Reset status
     try {
+        // Generate a random 5-letter word from an API
         const res = await fetch('https://random-word-api.herokuapp.com/word?length=5');
         const data = await res.json();
         currentAnagramSolutionWord = data[0].toUpperCase(); // Store the solution
         const shuffled = shuffleWord(currentAnagramSolutionWord);
 
         anagramClueLettersDiv.textContent = shuffled.split('').join(' ');
-        // Pre-cache the solution word as valid to avoid an API call if they type it directly
         anagramWordCache[currentAnagramSolutionWord] = true; 
+        // Render the grid with inputs
         renderAnagramGrid();
         if(anagramFeedback) anagramFeedback.textContent = "";
     } catch (err) {
@@ -231,6 +235,7 @@ async function generateAnagramPuzzle() {
 const globalContinueBtn = document.getElementById('globalContinueBtn');
 const globalNewPuzzlesBtn = document.getElementById('globalNewPuzzlesBtn');
 
+// Checking if both puzzles are solved to enable the continue button
 function checkOverallCompletion() {
     if (globalContinueBtn) {
         if (isCipherSolved && isAnagramSolved) {
@@ -248,6 +253,7 @@ function initializeBothPuzzles() {
     generateAnagramPuzzle(); // This calls renderAnagramGrid and checkOverallCompletion
 }
 
+// If continue button in enabled redirect the user to the collection page
 if (globalContinueBtn) {
     globalContinueBtn.addEventListener("click", () => {
         if (isCipherSolved && isAnagramSolved) {

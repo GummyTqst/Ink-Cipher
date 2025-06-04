@@ -177,7 +177,9 @@ h1.page-title {
     transition: background-color 0.2s ease;
     z-index: 20;
 }
-.reset-book-btn:hover { background: #e6ac00; }
+.reset-book-btn:hover { 
+    background: #e6ac00; 
+}
 
 .progress-bar {
     background: #f0f0f0;
@@ -266,16 +268,41 @@ h1.page-title {
 }
 
 
-#puzzleModal .submit-btn { background: #f6a440 }
-#puzzleModal .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(38, 161, 180, 0.25); }
-#puzzleModal .submit-btn:disabled { background: #b0bec5; cursor: not-allowed; transform: none; box-shadow: none; }
+#puzzleModal .submit-btn { 
+    background: #f6a440 
+}
+#puzzleModal .submit-btn:hover { 
+    transform: translateY(-1px); 
+    box-shadow: 0 3px 10px rgba(38, 161, 180, 0.25); 
+}
+#puzzleModal .submit-btn:disabled { 
+    background: #b0bec5; 
+    cursor: not-allowed; 
+    transform: none; 
+    box-shadow: none; 
+}
 
-#puzzleModal .hint-btn { background-color: #B87A30; color: #263238; }
-#puzzleModal .hint-btn:hover { background-color: #ffc107; }
-#puzzleModal .hint-btn:disabled { background-color: #cfd8dc; color: #78909c; opacity: 0.8; cursor: not-allowed; }
+#puzzleModal .hint-btn { 
+    background-color: #B87A30; 
+    color: #263238; 
+}
+#puzzleModal .hint-btn:hover { 
+    background-color: #ffc107; 
+}
+#puzzleModal .hint-btn:disabled { 
+    background-color: #cfd8dc; 
+    color: #78909c; 
+    opacity: 0.8; 
+    cursor: not-allowed; 
+}
 
-#puzzleModal .color-puzzle .reset-btn { background: #ef5350; color: white; }
-#puzzleModal .color-puzzle .reset-btn:hover { background: #e53935; }
+#puzzleModal .color-puzzle .reset-btn { 
+    background: #ef5350; 
+    color: white; 
+}
+#puzzleModal .color-puzzle .reset-btn:hover { 
+    background: #e53935; 
+}
 
 
 #puzzleModal .feedback {
@@ -284,64 +311,111 @@ h1.page-title {
     font-size: 0.9rem; min-height: 36px;
 }
 #puzzleModal .feedback p.correct {
-    background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9;
-    padding: 8px; border-radius: 4px;
+    background: #e8f5e9; 
+    color: #2e7d32; 
+    border: 1px solid #c8e6c9;
+    padding: 8px; 
+    border-radius: 4px;
 }
 #puzzleModal .feedback p.incorrect {
-    background: #ffebee; color: #c62828; border: 1px solid #ffcdd2;
-    padding: 8px; border-radius: 4px;
+    background: #ffebee; 
+    color: #c62828; 
+    border: 1px solid #ffcdd2;
+    padding: 8px; 
+    border-radius: 4px;
 }
 #puzzleModal .feedback p.hint-message {
-    background: #fff8e1; color: #6d4c41; border: 1px solid #ffecb3;
-    padding: 8px; border-radius: 4px; font-style: italic;
+    background: #fff8e1; 
+    color: #6d4c41; 
+    border: 1px solid #ffecb3;
+    padding: 8px; 
+    border-radius: 4px; 
+    font-style: italic;
 }
 
 
 /* Color Puzzle Specifics */
 #puzzleModal .color-puzzle .color-sequence {
-    display: flex; justify-content: center; gap: 6px; margin: 15px 0; flex-wrap: wrap;
+    display: flex; 
+    justify-content: center; 
+    gap: 6px; 
+    margin: 15px 0; 
+    flex-wrap: wrap;
 }
 #puzzleModal .color-puzzle .color-box {
-    width: 30px; height: 30px; border-radius: 4px; border: 1px solid #c0c0c0;
+    width: 30px; 
+    height: 30px; 
+    border-radius: 4px; 
+    border: 1px solid #c0c0c0;
 }
 #puzzleModal .color-puzzle .color-buttons {
-    display: flex; justify-content: center; gap: 6px; margin: 12px 0; flex-wrap: wrap;
+    display: flex; 
+    justify-content: center; 
+    gap: 6px; 
+    margin: 12px 0; 
+    flex-wrap: wrap;
 }
 #puzzleModal .color-puzzle .color-btn {
-    width: 35px; height: 35px; border-radius: 4px; border: 1px solid #c0c0c0;
-    cursor: pointer; transition: transform 0.15s;
+    width: 35px; 
+    height: 35px; 
+    border-radius: 4px; 
+    border: 1px solid #c0c0c0;
+    cursor: pointer; 
+    transition: transform 0.15s;
     padding: 0;
 }
-#puzzleModal .color-puzzle .color-btn:hover { transform: scale(1.08); }
+#puzzleModal .color-puzzle .color-btn:hover { 
+    transform: scale(1.08); 
+}
 
 #puzzleModal .color-puzzle .selected-colors {
-    margin-top: 8px; min-height: 28px; display: flex;
-    justify-content: center; gap: 4px; flex-wrap: wrap;
-    padding: 4px; background-color: #f5f5f5; border-radius: 4px;
+    margin-top: 8px; 
+    min-height: 28px; 
+    display: flex;
+    justify-content: center; 
+    gap: 4px; 
+    flex-wrap: wrap;
+    padding: 4px; 
+    background-color: #f5f5f5; 
+    border-radius: 4px;
 }
 #puzzleModal .color-puzzle .selected-color {
-    padding: 4px 6px; border-radius: 3px; font-size: 0.75rem; font-weight: 500;
+    padding: 4px 6px; 
+    border-radius: 3px; 
+    font-size: 0.75rem; 
+    font-weight: 500;
     text-shadow: 0 0 1px rgba(0,0,0,0.15);
 }
 
 
 /* Memory Puzzle Specifics */
 #puzzleModal .memory-puzzle .memory-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); 
-    gap: 6px; max-width: 240px;
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 6px; 
+    max-width: 240px;
     margin: 15px auto;
 }
 #puzzleModal .memory-puzzle .memory-card {
-    width: 50px; height: 50px;
-    border-radius: 6px; cursor: pointer; position: relative;
-    transform-style: preserve-3d; transition: transform 0.4s;
+    width: 50px; 
+    height: 50px;
+    border-radius: 6px; 
+    cursor: pointer; 
+    position: relative;
+    transform-style: preserve-3d; 
+    transition: transform 0.4s;
 }
 #puzzleModal .memory-puzzle .memory-card .card-front,
 #puzzleModal .memory-puzzle .memory-card .card-back {
-    position: absolute; width: 100%; height: 100%;
-    backface-visibility: hidden; display: flex;
-    align-items: center; justify-content: center;
-    border-radius: 6px; font-size: 1.5rem;
+    position: absolute; 
+    width: 100%; 
+    height: 100%;
+    backface-visibility: hidden; 
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    border-radius: 6px; 
+    font-size: 1.5rem;
     box-sizing: border-box;
 }
 #puzzleModal .memory-puzzle .memory-card .card-front {
@@ -349,48 +423,83 @@ h1.page-title {
     color: white;
 }
 #puzzleModal .memory-puzzle .memory-card .card-back {
-    background: #eceff1; color: #37474f;
-    transform: rotateY(180deg); border: 1px solid #cfd8dc;
+    background: #eceff1; 
+    color: #37474f;
+    transform: rotateY(180deg); 
+    border: 1px solid #cfd8dc;
 }
-#puzzleModal .memory-puzzle .memory-card.flipped { transform: rotateY(180deg); }
+#puzzleModal .memory-puzzle .memory-card.flipped { 
+    transform: rotateY(180deg); 
+}
 #puzzleModal .memory-puzzle .memory-card.matched .card-back { 
-    background: #4caf50; color: white; border-color: #4caf50;
+    background: #4caf50; 
+    color: white; 
+    border-color: #4caf50;
 }
-#puzzleModal .memory-puzzle .memory-card.matched { pointer-events: none; }
+#puzzleModal .memory-puzzle .memory-card.matched { 
+    pointer-events: none; 
+}
 #puzzleModal .memory-puzzle .memory-stats {
-    text-align: center; color: #5f676d; margin-top: 12px; font-size: 0.85rem;
+    text-align: center;
+    color: #5f676d; 
+    margin-top: 12px; 
+    font-size: 0.85rem;
 }
 
 /* Logic Puzzle Specifics */
 #puzzleModal .logic-puzzle .options {
-    display: flex; flex-direction: column; gap: 8px; margin: 15px 0;
-    align-items: stretch; max-width: 350px;
-    margin-left: auto; margin-right: auto;
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+    margin: 15px 0;
+    align-items: stretch; 
+    max-width: 350px;
+    margin-left: auto; 
+    margin-right: auto;
 }
 #puzzleModal .logic-puzzle .option-label {
-    display: flex; align-items: center; padding: 10px 12px;
-    background: #f5f5f5; border: 1px solid #e0e0e0;
-    border-radius: 5px; cursor: pointer; width: 100%;
-    box-sizing: border-box; transition: background-color 0.15s ease, border-color 0.15s ease;
+    display: flex; 
+    align-items: center; 
+    padding: 10px 12px;
+    background: #f5f5f5; 
+    border: 1px solid #e0e0e0;
+    border-radius: 5px; 
+    cursor: pointer; 
+    width: 100%;
+    box-sizing: border-box; 
+    transition: background-color 0.15s ease, border-color 0.15s ease;
     text-align: left;
 }
 #puzzleModal .logic-puzzle .option-label:hover {
-    background-color: #eeeeee; border-color: #bdbdbd;
+    background-color: #eeeeee; 
+    border-color: #bdbdbd;
 }
 #puzzleModal .logic-puzzle .option-label input[type="radio"] {
-    margin-right: 10px; flex-shrink: 0;
-    width: 16px; height: 16px;
+    margin-right: 10px; 
+    flex-shrink: 0;
+    width: 16px; 
+    height: 16px;
 }
-#puzzleModal .logic-puzzle .option-label span { color: #3e4347; font-size: 0.95rem; }
+#puzzleModal .logic-puzzle .option-label span { 
+    color: #3e4347; 
+    font-size: 0.95rem; 
+}
 
 
 /* Completion Message */
-#puzzleModal .completion-message { text-align: center; padding: 20px; }
+#puzzleModal .completion-message { 
+    text-align: center; 
+    padding: 20px; 
+}
 #puzzleModal .completion-title {
     font-size: 1.8rem; color: #388e3c;
     margin-bottom: 12px;
 }
-#puzzleModal .completion-text { font-size: 1rem; color: #424242; line-height: 1.5; }
+#puzzleModal .completion-text { 
+    font-size: 1rem; 
+    color: #424242; 
+    line-height: 1.5; 
+}
 
 
 /* Responsive adjustments for modal content if necessary */

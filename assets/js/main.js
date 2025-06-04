@@ -20,7 +20,7 @@ function displayFeedback(feedbackEl, message, isCorrect, isHint = false) {
     if (!feedbackEl) return;
     let cssClass = '';
     if (isHint) {
-        cssClass = 'hint-message'; // You'll need to style this class in CSS
+        cssClass = 'hint-message';
     } else {
         cssClass = isCorrect ? 'correct' : 'incorrect';
     }
@@ -72,7 +72,7 @@ if (burgerMenu && mainNav) {
 
 // ======== Hint Functionality ========
 function showHint() {
-    const feedbackEl = document.getElementById('puzzleFeedback'); // Or a dedicated hint display element
+    const feedbackEl = document.getElementById('puzzleFeedback');
     const hintButton = document.getElementById('hintButton');
 
     if (!currentPuzzleData || !feedbackEl) return;

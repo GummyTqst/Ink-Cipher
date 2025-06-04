@@ -146,9 +146,10 @@ async function validateAnagramRows() {
             rowIsValid = await isValidAnagramWord(word);
             if (rowIsValid) {
                 anyRowIsValid = true;
-                if (word.toUpperCase() === currentAnagramSolutionWord) {
-                    isAnagramSolved = true;
-                }
+                isAnagramSolved = true; 
+                // if (word.toUpperCase() === currentAnagramSolutionWord) {
+                //     isAnagramSolved = true;
+                // }
             }
         }
         rowInputs.forEach(input => {

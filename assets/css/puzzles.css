@@ -1,216 +1,333 @@
-.container {
-    max-width: 800px;
+.page-container {
+    /* max-width: 800px; */
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    gap: 5rem;
+}
+
+.puzzle-section {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    /* border: 1px solid #502C07; */
     width: 100%;
 }
 
-h1 {
+h1, h2 {
     text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    color: #F9D77A;
 }
 
+/* Symbol Cipher Styles */
 .symbols-display {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin-bottom: 30px;
+    gap: 30px;
+    margin-bottom: 25px;
     flex-wrap: wrap;
 }
 
 .symbol {
-    font-size: 3rem;
-    padding: 15px;
-    background: rgba(212, 175, 55, 0.1);
-    border: 2px solid #d4af37;
-    border-radius: 10px;
-    min-width: 60px;
+    font-size: 2.5rem;
+    padding: 10px;
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    min-width: 50px;
     text-align: center;
+    color: #FDF3BF;
 }
 
 .input-section {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.symbols-row {
+#cipherSymbolsDisplay.symbols-row {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin-bottom: 20px;
+    gap: 15px;
+    margin-bottom: 15px;
     flex-wrap: wrap;
 }
 
 .symbol-input {
-    font-size: 3rem;
+    font-size: 2.5rem;
     text-align: center;
-    min-width: 60px;
+    min-width: 50px;
+    color: #FDF3BF;
+    padding: 5px;
 }
 
-.long-input {
-    background: rgba(42, 24, 16, 0.8);
-    border: 3px solid #502C07;
-    color: #d4af37;
-    border-radius: 8px;
-    font-size: 1.5rem;
-    padding: 15px;
-    width: 100%;
-    min-width: 100%;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 20px;
-    box-sizing: border-box;
-}
-
-input[type="text"] {
-    background: rgba(42, 24, 16, 0.8);
+.long-input#cipherLongInput {
+    background: rgba(42, 24, 16, 0.9);
     border: 2px solid #502C07;
     color: #d4af37;
     border-radius: 8px;
-    font-size: 1.2rem;
-    padding: 10px;
-    width: 50px;
+    font-size: 1.4rem;
+    padding: 12px;
+    width: 100%;
+    max-width: 300px;
     text-align: center;
     text-transform: uppercase;
+    letter-spacing: 15px;
+    box-sizing: border-box;
+}
+.long-input#cipherLongInput::placeholder {
+    color: #a89a73;
+    opacity: 0.7;
 }
 
-input[type="text"]:focus {
-    outline: none;
-    /* border-color: #ffd700; */
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-}
-
-.alphabet-grid {
+#cipherAlphabetGrid.alphabet-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 30px;
-    margin-bottom: 30px;
-    padding: 30px 20px;
+    grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+    gap: 10px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 5px;
 }
 
 .alphabet-cell {
     text-align: center;
-    font-size: 2.5rem;
-    min-height: 60px;
+    font-size: 1.5rem;
+    min-height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #A09553;
+    background-color: rgba(42, 24, 16, 0.7);
+    border-radius: 4px;
+    border: 1px solid #502C07;
 }
 
-.alphabet-letter {
-    display: none;
-}
-
-.controls {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-button {
-    background: #B87A30;
-    /* background: linear-gradient(135deg, #d4af37, #b8941f); */
-    color: #2c1810;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-button:hover {
-    background: linear-gradient(135deg, #ffd700, #d4af37);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-.feedback {
+/* General Input Styles */
+input[type="text"] {
+    background: rgba(42, 24, 16, 0.8);
+    border: 1px solid #502C07;
+    color: #d4af37;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    padding: 8px;
     text-align: center;
-    font-size: 1.2rem;
-    min-height: 30px;
+    text-transform: uppercase;
+}
+input[type="text"]:focus {
+    outline: none;
+    border-color: #ffd700;
+}
+
+
+/* Anagram Puzzle Styles */
+#anagramClueLetters.letters {
+    font-size: 1.8rem;
     margin-bottom: 20px;
-}
-
-.correct {
-    color: #90EE90;
-}
-
-.incorrect {
-    color: #FFB6C1;
-}
-
-
-/* Anagram */
-.letters {
-    font-size: 2rem;
-    margin-bottom: 30px;
     color: #A09553;
-    letter-spacing: 10px;
+    letter-spacing: 8px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.grid {
+#anagramGrid.grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    max-width: 90vw;
+    gap: 8px;
+    max-width: 300px;
     margin: 0 auto 20px auto;
 }
 
-/* input[type="text"] {
+#anagramGrid input[type="text"] {
     width: 100%;
     aspect-ratio: 1 / 1;
-    font-size: 5vw;
-    min-width: 40px;
-    max-width: 70px;
-    background-color: #a1783a;
-    color: black;
-    border: none;
+    font-size: clamp(1rem, 5vw, 1.8rem);
+    background-color: rgba(161, 120, 58, 0.7);
+    color: #FDF3BF;
+    border: 1px solid #502C07;
     border-radius: 4px;
     text-align: center;
     text-transform: uppercase;
-} */
+    padding: 0;
+}
 
-input[type="text"].valid-word {
+#anagramGrid input[type="text"].valid-word {
+    background-color: #5a9a5a;
+    color: white;
+    border-color: #4a8a4a;
+}
+
+
+/* Controls (Buttons) */
+.controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+/* General Button Style  */
+button {
+    background: #B87A30;
+    color: #2c1810;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    min-width: 120px;
+}
+button:hover {
+    background: #c88A40;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+}
+button:disabled {
+    background-color: #55524e;
+    color: #aaa6a2;
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
+}
+
+
+/* Feedback Area */
+.feedback {
+    text-align: center;
+    font-size: 1.1rem;
+    min-height: 25px;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-radius: 4px;
+}
+.feedback.correct {
+    color: #8fbc8f;
+    background-color: rgba(143, 188, 143, 0.1);
+}
+.feedback.incorrect {
+    color: #f08080;
+    background-color: rgba(240, 128, 128, 0.1);
+}
+
+
+/* Global Controls at the bottom */
+.global-controls {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 1px solid #502C07;
+}
+#globalNewPuzzlesBtn, #globalContinueBtn {
+    padding: 12px 25px;
+    font-size: 1rem;
+    margin: 0 10px;
+}
+#globalContinueBtn:enabled {
     background-color: #6dbb6d;
     color: white;
 }
-
-#continueBtn {
-    background-color: #555;
-    color: #aaa;
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
-
-  #continueBtn:enabled {
-    background-color: #6dbb6d;
-    color: white;
-    cursor: pointer;
-    opacity: 1;
-  }
-
-  #continueBtn:hover:enabled {
+#globalContinueBtn:hover:enabled {
     background-color: #5ca95c;
-  }
+}
 
-@media (max-width: 600px) {
-    .symbols-display {
-        gap: 20px;
+
+/* Divider */
+hr.puzzle-divider {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(80, 44, 7, 0), rgba(80, 44, 7, 0.75), rgba(80, 44, 7, 0));
+    margin: 40px 0;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    h1, h2 {
+        font-size: 1.8rem;
     }
-    
-    .symbol {
+    .long-input#cipherLongInput {
+        letter-spacing: 10px;
+        font-size: 1.2rem;
+    }
+    #cipherAlphabetGrid.alphabet-grid {
+        gap: 8px;
+        padding: 10px;
+    }
+    .alphabet-cell {
+        font-size: 1.2rem;
+        min-height: 40px;
+    }
+    #anagramClueLetters.letters {
+        font-size: 1.5rem;
+        letter-spacing: 5px;
+    }
+    #anagramGrid.grid {
+        max-width: 250px;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-container {
+        padding: 10px;
+        flex-direction: column;
+    }
+    h1, h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    .puzzle-section {
+        padding: 15px;
+    }
+    #cipherSymbolsDisplay.symbols-row, .symbols-display {
+        gap: 10px;
+    }
+    .symbol-input, .symbol {
         font-size: 2rem;
-        min-width: 50px;
+        min-width: 40px;
     }
-    
-    .alphabet-grid {
-        grid-template-columns: repeat(5, 1fr);
+    .long-input#cipherLongInput {
+        font-size: 1rem;
+        padding: 10px;
+        letter-spacing: 8px;
+        max-width: 240px;
+    }
+    #cipherAlphabetGrid.alphabet-grid {
+        grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
+        gap: 5px;
+    }
+    .alphabet-cell {
+        font-size: 1rem;
+        min-height: 35px;
+    }
+    #anagramClueLetters.letters {
+        font-size: 1.2rem;
+    }
+    #anagramGrid.grid {
+        max-width: 200px;
+    }
+    button, #globalNewPuzzlesBtn, #globalContinueBtn {
+        font-size: 0.8rem;
+        padding: 8px 15px;
+        min-width: 100px;
+    }
+    .global-controls {
+        margin-top: 20px;
+        padding: 15px;
+    }
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    .controls button {
+        width: 80%;
+        max-width: 200px;
     }
 }

@@ -14,6 +14,7 @@
 body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    font-family: "Inter", sans-serif;
 }
 img, picture, video, canvas, svg {
     display: block;
@@ -27,9 +28,11 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 p {
     text-wrap: pretty;
+    font-family: "Inter", sans-serif;
 }
 h1, h2, h3, h4, h5, h6 {
     text-wrap: balance;
+    font-family: "Cinzel", serif;
 }
 
 /* --------- General Styling --------- */
@@ -177,7 +180,7 @@ header {
 }
 
 .cta-button {
-    background: linear-gradient(to right, #be8c3c, #d9b166, #be8c3c);
+    background: #B87A30;
     color: #1a1307;
     padding: 10px 25px;
     border: none;

@@ -6,6 +6,8 @@
 
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/puzzles.css">
+    <!-- Font Awesome for burger menu if not globally included -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <title>Puzzles</title>
 </head>
 <body>
@@ -27,42 +29,51 @@
         </nav>
     </header>
 
-    <div class="container">
-        <h1>Symbol Cipher Puzzle</h1>
+    <main class="page-container">
+        <!-- Symbol Cipher Puzzle Section -->
+        <section class="puzzle-section" id="symbolCipherSection">
+            <h1>Symbol Cipher Puzzle</h1>
 
-        <div class="input-section">
-            <div class="symbols-row">
-                <span class="symbol-input">☀️</span>
-                <span class="symbol-input">♦️</span>
-                <span class="symbol-input">🌙</span>
-                <span class="symbol-input">💎</span>
-                <span class="symbol-input">💚</span>
+            <div class="input-section">
+                <div class="symbols-row" id="cipherSymbolsDisplay">
+                    <!-- Symbols will be generated here by JS -->
+                </div>
+                <input type="text" class="long-input" id="cipherLongInput" maxlength="5" placeholder="_ _ _ _ _">
             </div>
-            <input type="text" class="long-input" id="longInput" maxlength="5" placeholder="_ _ _ _ _">
-        </div>
 
-        <div class="controls">
-            <button onclick="checkAnswers()">Check Answers</button>
-            <!-- <button onclick="showSolution()">Show Solution</button> -->
-            <button onclick="newPuzzle()">New Puzzle</button>
-        </div>
+            <div class="controls symbol-cipher-controls">
+                <button onclick="checkCipherAnswer()">Check Cipher</button>
+                <!-- <button onclick="showSolution()">Show Solution</button> -->
+                <!-- Individual New Puzzle button for Cipher removed, will use global one -->
+            </div>
 
-        <div class="feedback" id="feedback"></div>
+            <div class="feedback" id="cipherFeedback"></div>
+            <div class="alphabet-grid" id="cipherAlphabetGrid"></div>
+        </section>
 
-        <div class="alphabet-grid" id="alphabetGrid"></div>
-    </div>
+        <hr class="puzzle-divider"> <!-- Optional divider -->
 
-    <!-- Anagram puzzle -->
-     <h2>Anagram Puzzle</h2>
-     <div class="letters" id="clueLetters">LOADING</div>
+        <!-- Anagram Puzzle Section -->
+        <section class="puzzle-section" id="anagramPuzzleSection">
+            <h2>Anagram Puzzle</h2>
+            <div class="letters" id="anagramClueLetters">LOADING...</div>
+            <div class="grid" id="anagramGrid">
+                <!-- Input grid will be generated here by JS -->
+            </div>
+            <div class="controls anagram-controls">
+                 <!-- Individual New Puzzle button for Anagram removed -->
+            </div>
+            <div class="feedback" id="anagramFeedback"></div> <!-- Feedback for anagram if needed -->
+        </section>
 
-     <div class="grid" id="anagramGrid"></div>
+    </main>
 
-     <div>
-        <button id="newPuzzleBtn">New Puzzle</button>
-        <button id="continueBtn" disabled>Continue</button>
-     </div>
+    <footer class="global-controls">
+        <button id="globalNewPuzzlesBtn">New Puzzles (Both)</button>
+        <button id="globalContinueBtn" disabled>Continue to Next Challenge</button>
+    </footer>
 
     <script src="assets/js/puzzles.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
 </body>
 </html>

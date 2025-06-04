@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/collection.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
     <title>Collection</title>
 </head>
 <body>
@@ -32,15 +36,15 @@
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">×</button>
             <button class="reset-book-btn" onclick="confirmResetBook()" title="Reset this book's progress">Reset Book</button>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
             <div class="puzzle-header">
                 <h2 class="puzzle-title" id="puzzleTitle">Puzzle 1</h2>
                 <p class="puzzle-counter" id="puzzleCounter">1 of 6</p>
             </div>
             <div class="puzzle-content" id="puzzleContent">
                 Puzzle content will be inserted here
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
             </div>
         </div>
     </dialog>

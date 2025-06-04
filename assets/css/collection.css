@@ -135,13 +135,14 @@ h1.page-title {
     background: transparent;
     max-width: 90vw;
     width: 550px;
+    margin: auto;
 }
 .modal::backdrop {
     background: rgba(0,0,0,0.75);
     backdrop-filter: blur(4px);
 }
 .modal-content {
-    background: white;
+    background: linear-gradient(to bottom, #291909, #160E06);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 12px 35px rgba(0,0,0,0.2);
@@ -168,7 +169,7 @@ h1.page-title {
 
 .reset-book-btn {
     position: absolute; top: 12px; left: 12px;
-    background: #ffbf00; 
+    background: #B87A30; 
     color: #212121;
     border: none; padding: 6px 10px;
     border-radius: 4px; font-size: 0.8rem;
@@ -191,14 +192,19 @@ h1.page-title {
     transition: width 0.4s ease;
 }
 
-#puzzleModal .puzzle-header { text-align: center; margin-bottom: 15px; }
+#puzzleModal .puzzle-header { 
+    text-align: center; 
+    margin-bottom: 15px; 
+}
+
 #puzzleModal .puzzle-title {
-    color: #212529;
+    color: #86541C;
     font-size: 1.6rem; 
-    font-weight: 600; margin-bottom: 5px;
+    font-weight: 600; 
+    margin-bottom: 5px;
 }
 #puzzleModal .puzzle-counter { 
-    color: #5f676d; 
+    color: #AD8953; 
     font-size: 0.95rem; 
 }
 
@@ -213,13 +219,15 @@ h1.page-title {
     box-sizing: border-box; text-align: center;
 }
 #puzzleModal h3 {
-    color: #3e4347; font-size: 1.2rem; margin-bottom: 12px;
+    color: #86541C; 
+    font-size: 1.2rem; 
+    margin-bottom: 12px;
 }
 #puzzleModal .question, 
 #puzzleModal .riddle-text, 
 #puzzleModal .pattern-display,
 #puzzleModal .color-puzzle .question {
-    color: #3e4347; font-size: 1rem;
+    color: #AD8953; font-size: 1rem;
     line-height: 1.5; margin-bottom: 12px;
 }
 #puzzleModal .riddle-box {
@@ -258,11 +266,11 @@ h1.page-title {
 }
 
 
-#puzzleModal .submit-btn { background: linear-gradient(45deg, #26a1b4, #1e7f8e); }
+#puzzleModal .submit-btn { background: #f6a440 }
 #puzzleModal .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(38, 161, 180, 0.25); }
 #puzzleModal .submit-btn:disabled { background: #b0bec5; cursor: not-allowed; transform: none; box-shadow: none; }
 
-#puzzleModal .hint-btn { background-color: #ffca28; color: #263238; }
+#puzzleModal .hint-btn { background-color: #B87A30; color: #263238; }
 #puzzleModal .hint-btn:hover { background-color: #ffc107; }
 #puzzleModal .hint-btn:disabled { background-color: #cfd8dc; color: #78909c; opacity: 0.8; cursor: not-allowed; }
 

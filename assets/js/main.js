@@ -1,436 +1,512 @@
+// ======== Global Variables & DOM Elements ========
 const burgerMenu = document.querySelector('.burger-menu');
 const mainNav = document.querySelector('.main-nav');
+const modal = document.getElementById('puzzleModal');
+const puzzleTitleElement = document.getElementById('puzzleTitle');
+const puzzleCounterElement = document.getElementById('puzzleCounter');
+const progressFillElement = document.getElementById('progressFill');
+const puzzleContentElement = document.getElementById('puzzleContent');
 
-burgerMenu.addEventListener('click', function () {
-    burgerMenu.classList.toggle('active');
-    mainNav.classList.toggle('active');
-});
-
-// Define these BEFORE they are used
-function openModal() {
-    loadProgress();
-    const modal = document.getElementById('puzzleModal');
-    modal.showModal();
-
-    if (gameData.isCompleted) {
-        showCompletion();
-    } else {
-        showPuzzle(gameData.currentPuzzle);
-    }
-}
-
-function closeModal() {
-    const modal = document.getElementById('puzzleModal');
-    modal.close();
-    saveProgress();
-}
-
-// Book click handler
-const showBtn = document.querySelectorAll('.show-dialog');
-
-showBtn.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-        if (btn.classList.contains('locked-card')) return;
-        openModal();
-    });
-});
-
-let gameData = {
-    currentPuzzle: 0,
-    completedPuzzles: [],
-    isCompleted: false
-};
-
-function saveProgress() {
-    localStorage.setItem('puzzleProgress', JSON.stringify(gameData));
-    console.log('Progress saved to localStorage:', gameData);
-}
-
-
-function loadProgress() {
-    const saved = localStorage.getItem('puzzleProgress');
-    if (saved) {
-        gameData = JSON.parse(saved);
-        console.log('Progress loaded from localStorage:', gameData);
-    } else {
-        console.log('No saved progress found.');
-    }
-}
-
-const puzzles = [
-    {
-        title: "Math Challenge",
-        type: "math",
-        question: "15 × 7 + 23 = ?",
-        answer: 128
-    },
-    {
-        title: "Memory Game",
-        type: "memory",
-        cards: ['🎮', '🎲', '🎯', '🎪', '🎨', '🎭', '🎮', '🎲', '🎯', '🎪', '🎨', '🎭']
-    },
-    {
-        title: "Word Puzzle",
-        type: "word",
-        clue: "I have keys but no locks. I have space but no room. You can enter, but you can't go outside. What am I?",
-        answer: "keyboard"
-    },
-    {
-        title: "Pattern Recognition",
-        type: "pattern",
-        pattern: [0, 2, 4, 11, 13, 15, 22, 24]
-    },
-    {
-        title: "Logic Puzzle",
-        type: "logic",
-        question: "If all roses are flowers, and some flowers are red, which statement must be true?",
-        options: [
-            "All flowers are roses",
-            "Some roses might be red",
-            "All red things are flowers",
-            "No roses are red"
-        ],
-        answer: 1
-    },
-    {
-        title: "Color Sequence",
-        type: "color",
-        sequence: ['red', 'blue', 'green', 'yellow', 'red']
-    }
-];
-
+let allPuzzlesData = [];
 let currentPuzzleData = {};
-let memoryFlipped = [];
-let memoryMatched = [];
-let colorSequenceInput = [];
+let currentBookIndex = 0;
+let bookProgress = {}; // Stored in localStorage
+let selectedColorSequence = []; // For Color Puzzle
+let memoryGameState = {}; // For Memory Puzzle
 
-function showPuzzle(index) {
-    if (index >= puzzles.length) {
-        completeAllPuzzles();
-        return;
-    }
+// ======== Utility & Helper Functions ========
 
-    const puzzle = puzzles[index];
-    currentPuzzleData = puzzle;
-
-    document.getElementById('puzzleTitle').textContent = puzzle.title;
-    document.getElementById('puzzleCounter').textContent = `${index + 1} of ${puzzles.length}`;
-
-    const progressPercent = (index / puzzles.length) * 100;
-    document.getElementById('progressFill').style.width = progressPercent + '%';
-
-    const content = document.getElementById('puzzleContent');
-    content.innerHTML = '';
-
-    switch (puzzle.type) {
-        case 'math':
-            showMathPuzzle(content, puzzle);
-            break;
-        case 'memory':
-            showMemoryPuzzle(content, puzzle);
-            break;
-        case 'word':
-            showWordPuzzle(content, puzzle);
-            break;
-        case 'pattern':
-            showPatternPuzzle(content, puzzle);
-            break;
-        case 'logic':
-            showLogicPuzzle(content, puzzle);
-            break;
-        case 'color':
-            showColorPuzzle(content, puzzle);
-            break;
-    }
-}
-
-function showMathPuzzle(content, puzzle) {
-    content.innerHTML = `
-        <div class="math-equation">${puzzle.question}</div>
-        <input type="number" class="math-input" id="mathAnswer" placeholder="Enter answer">
-        <button class="submit-btn" onclick="checkMathAnswer()">Submit</button>
-        <div id="mathFeedback" class="feedback" style="display: none;"></div>
-    `;
-}
-
-function checkMathAnswer() {
-    const answer = parseInt(document.getElementById('mathAnswer').value);
-    const feedback = document.getElementById('mathFeedback');
-
-    if (answer === currentPuzzleData.answer) {
-        showFeedback(feedback, 'Correct! Well done!', true);
-        setTimeout(() => nextPuzzle(), 1500);
+function displayFeedback(feedbackEl, message, isCorrect, isHint = false) {
+    if (!feedbackEl) return;
+    let cssClass = '';
+    if (isHint) {
+        cssClass = 'hint-message'; // You'll need to style this class in CSS
     } else {
-        showFeedback(feedback, 'Try again!', false);
+        cssClass = isCorrect ? 'correct' : 'incorrect';
+    }
+    feedbackEl.innerHTML = `<p class="${cssClass}">${message}</p>`;
+}
+
+
+function handleSimpleAnswerCheck(isCorrect, feedbackEl, successMsg, errorMsg) {
+    displayFeedback(feedbackEl, isCorrect ? successMsg : errorMsg, isCorrect);
+    if (isCorrect) {
+        setTimeout(nextPuzzle, 1500);
     }
 }
 
-function showMemoryPuzzle(content, puzzle) {
-    memoryFlipped = [];
-    memoryMatched = [];
-    const shuffled = [...puzzle.cards].sort(() => Math.random() - 0.5);
+function loadBookProgress() {
+    const saved = localStorage.getItem('bookProgress');
+    bookProgress = saved ? JSON.parse(saved) : {};
+}
 
-    content.innerHTML = `
-        <p>Match all the pairs!</p>
-        <div class="memory-grid" id="memoryGrid"></div>
-    `;
+function saveBookProgress() {
+    localStorage.setItem('bookProgress', JSON.stringify(bookProgress));
+}
 
-    const grid = document.getElementById('memoryGrid');
-    shuffled.forEach((card, index) => {
-        const button = document.createElement('button');
-        button.className = 'memory-card';
-        button.textContent = '?';
-        button.dataset.card = card;
-        button.dataset.index = index;
-        button.onclick = () => flipCard(button);
-        grid.appendChild(button);
+async function fetchAllPuzzles() {
+    if (allPuzzlesData.length === 0) {
+        try {
+            const res = await fetch('assets/json/puzzles.json');
+            allPuzzlesData = await res.json();
+        } catch (error) {
+            console.error('Error loading all puzzles:', error);
+            allPuzzlesData = [];
+        }
+    }
+    return allPuzzlesData;
+}
+
+function isLightColor(color) {
+    const lightColors = ['yellow', 'lime', 'pink', 'cyan', 'orange', 'white'];
+    return lightColors.includes(color.toLowerCase());
+}
+
+// ======== Burger Menu ========
+if (burgerMenu && mainNav) {
+    burgerMenu.addEventListener('click', () => {
+        burgerMenu.classList.toggle('active');
+        mainNav.classList.toggle('active');
     });
 }
 
-function flipCard(card) {
-    if (memoryFlipped.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
-        card.classList.add('flipped');
-        card.textContent = card.dataset.card;
-        memoryFlipped.push(card);
+// ======== Hint Functionality ========
+function showHint() {
+    const feedbackEl = document.getElementById('puzzleFeedback'); // Or a dedicated hint display element
+    const hintButton = document.getElementById('hintButton');
 
-        if (memoryFlipped.length === 2) {
-            setTimeout(checkMemoryMatch, 1000);
+    if (!currentPuzzleData || !feedbackEl) return;
+
+    if (currentPuzzleData.hint) {
+        displayFeedback(feedbackEl, `Hint: ${currentPuzzleData.hint}`, false, true); // Display as a hint
+        if (hintButton) {
+            hintButton.disabled = true; // Disable after use for this puzzle instance
+            hintButton.textContent = "Hint Used";
         }
+    } else {
+        displayFeedback(feedbackEl, "No hint available for this puzzle.", false, true);
+        if (hintButton) {
+            hintButton.disabled = true;
+            hintButton.textContent = "No Hint";
+        }
+    }
+}
+
+
+// ======== Puzzle Display Functions (show...Puzzle) ========
+
+function showMathPuzzle(container, puzzleData) {
+    container.innerHTML = `
+        <div class="puzzle-wrapper">
+            <div class="math-puzzle">
+                <h3>${puzzleData.title || 'Math Challenge'}</h3>
+                <p class="question">${puzzleData.question}</p>
+                <input type="number" class="answer-input" id="mathAnswer" placeholder="Enter your answer">
+                <button class="submit-btn" onclick="checkMathAnswer(${puzzleData.answer})">Submit</button>
+                <button class="hint-btn" id="hintButton" onclick="showHint()">Show Hint</button>
+                <div class="feedback" id="puzzleFeedback"></div>
+            </div>
+        </div>`;
+}
+
+function showWordPuzzle(container, puzzleData) {
+    container.innerHTML = `
+        <div class="puzzle-wrapper">
+            <div class="word-puzzle">
+                <h3>${puzzleData.title || 'Word Puzzle'}</h3>
+                <div class="riddle-box"><p class="riddle-text">${puzzleData.clue}</p></div>
+                <input type="text" class="answer-input" id="wordAnswer" placeholder="Enter your answer">
+                <button class="submit-btn" onclick="checkWordAnswer('${puzzleData.answer}')">Submit</button>
+                <button class="hint-btn" id="hintButton" onclick="showHint()">Show Hint</button>
+                <div class="feedback" id="puzzleFeedback"></div>
+            </div>
+        </div>`;
+}
+
+function showLogicPuzzle(container, puzzleData) {
+    const optionsHTML = puzzleData.options.map((option, index) =>
+        `<label class="option-label">
+            <input type="radio" name="logicAnswer" value="${index}"> <span>${option}</span>
+        </label>`
+    ).join('');
+    container.innerHTML = `
+        <div class="puzzle-wrapper">
+            <div class="logic-puzzle">
+                <h3>${puzzleData.title || 'Logic Puzzle'}</h3>
+                <p class="question">${puzzleData.question}</p>
+                <div class="options">${optionsHTML}</div>
+                <button class="submit-btn" onclick="checkLogicAnswer(${puzzleData.answer})">Submit</button>
+                <button class="hint-btn" id="hintButton" onclick="showHint()">Show Hint</button>
+                <div class="feedback" id="puzzleFeedback"></div>
+            </div>
+        </div>`;
+}
+
+function showPatternPuzzle(container, puzzleData) {
+    container.innerHTML = `
+        <div class="puzzle-wrapper">
+            <div class="pattern-puzzle">
+                <h3>${puzzleData.title || 'Pattern Recognition'}</h3>
+                <p class="question">What's the next number in this sequence?</p>
+                <div class="pattern-display">${puzzleData.pattern.join(', ')}, ?</div>
+                <input type="number" class="answer-input" id="patternAnswer" placeholder="Enter next number">
+                <button class="submit-btn" onclick="checkPatternAnswer()">Submit</button>
+                <button class="hint-btn" id="hintButton" onclick="showHint()">Show Hint</button>
+                <div class="feedback" id="puzzleFeedback"></div>
+            </div>
+        </div>`;
+}
+
+function showColorPuzzle(container, puzzleData) {
+    window.currentColorSequence = puzzleData.sequence;
+    selectedColorSequence = [];
+    const availableColors = ["red", "blue", "green", "yellow", "purple", "orange"];
+    const colorDisplay = puzzleData.sequence.map(color => `<div class="color-box" style="background-color: ${color};"></div>`).join('');
+    const colorButtonsHTML = availableColors.map(color => `<button class="color-btn" data-color="${color}" style="background-color: ${color};" title="${color}"></button>`).join('');
+
+    container.innerHTML = `
+        <div class="puzzle-wrapper">
+            <div class="color-puzzle">
+                <h3>${puzzleData.title || 'Color Memory'}</h3>
+                <p class="question">Memorize the sequence (it will disappear):</p>
+                <div class="color-sequence" id="colorSequenceToMemorize">${colorDisplay}</div>
+                <p>Recreate it:</p>
+                <div class="color-buttons">${colorButtonsHTML}</div>
+                <div class="selected-colors" id="selectedColorsDisplay"></div>
+                <button class="submit-btn" onclick="checkColorAnswer()">Submit</button>
+                <button class="reset-btn" onclick="resetColorSelection()">Reset Selection</button>
+                <button class="hint-btn" id="hintButton" onclick="showHint()">Show Hint</button>
+                <div class="feedback" id="puzzleFeedback"></div>
+            </div>
+        </div>`;
+
+    setTimeout(() => { document.getElementById('colorSequenceToMemorize')?.remove(); }, 5000);
+    container.querySelectorAll('.color-btn').forEach(btn => btn.addEventListener('click', () => addColorToSequence(btn.dataset.color)));
+}
+
+function showMemoryPuzzle(container, puzzleData) {
+    const shuffledCards = [...puzzleData.cards, ...puzzleData.cards].sort(() => 0.5 - Math.random());
+    window.currentMemoryGameCardsData = shuffledCards;
+
+    const cardsHTML = shuffledCards.map((symbol, index) =>
+        `<div class="memory-card" data-symbol="${symbol}" data-index="${index}">
+            <div class="card-front">?</div>
+            <div class="card-back">${symbol}</div>
+        </div>`
+    ).join('');
+
+    container.innerHTML = `
+        <div class="puzzle-wrapper">
+            <div class="memory-puzzle">
+                <h3>${puzzleData.title || 'Memory Game'}</h3>
+                <p class="question">Find all matching pairs!</p>
+                <div class="memory-grid">${cardsHTML}</div>
+                <div class="memory-stats">
+                    Pairs: <span id="pairsFound">0</span>/${puzzleData.cards.length} | Attempts: <span id="attempts">0</span>
+                </div>
+                <button class="hint-btn" id="hintButton" onclick="showHint()">Show Hint</button>
+                <div class="feedback" id="puzzleFeedback"></div>
+            </div>
+        </div>`;
+    setTimeout(() => initMemoryGame(shuffledCards), 100);
+}
+
+// ======== Puzzle Answer Checking Functions (check...Answer) ========
+
+function checkMathAnswer(correctAnswer) {
+    const userAnswer = parseInt(document.getElementById('mathAnswer')?.value);
+    const feedbackEl = document.getElementById('puzzleFeedback');
+    if (!feedbackEl) return;
+    handleSimpleAnswerCheck(userAnswer === correctAnswer, feedbackEl, "Correct! Well done!", "Incorrect. Try again!");
+}
+
+function checkWordAnswer(correctAnswer) {
+    const userAnswer = document.getElementById('wordAnswer')?.value.toLowerCase().trim();
+    const feedbackEl = document.getElementById('puzzleFeedback');
+    if (!feedbackEl) return;
+    handleSimpleAnswerCheck(userAnswer === correctAnswer.toLowerCase(), feedbackEl, "Correct! Great thinking!", "Incorrect. Try again!");
+}
+
+function checkLogicAnswer(correctAnswer) {
+    const selectedOption = document.querySelector('input[name="logicAnswer"]:checked');
+    const feedbackEl = document.getElementById('puzzleFeedback');
+    if (!feedbackEl) return;
+    if (!selectedOption) return displayFeedback(feedbackEl, "Please select an answer!", false);
+    handleSimpleAnswerCheck(parseInt(selectedOption.value) === correctAnswer, feedbackEl, "Correct! Excellent logic!", "Incorrect. Try again!");
+}
+
+function checkPatternAnswer() {
+    const userAnswer = parseInt(document.getElementById('patternAnswer')?.value);
+    const feedbackEl = document.getElementById('puzzleFeedback');
+    if (!feedbackEl || !currentPuzzleData) return;
+    handleSimpleAnswerCheck(userAnswer === currentPuzzleData.answer, feedbackEl, "Correct! You found the pattern!", "Incorrect. Look for the pattern!");
+}
+
+// --- Color Puzzle Specific Helpers & Checker ---
+function addColorToSequence(color) {
+    selectedColorSequence.push(color);
+    const display = document.getElementById('selectedColorsDisplay');
+    if (display) {
+        display.innerHTML = selectedColorSequence.map(c =>
+            `<span class="selected-color" style="background-color: ${c}; color: ${isLightColor(c) ? 'black' : 'white'};">${c}</span>`
+        ).join(' ');
+    }
+}
+
+function resetColorSelection() {
+    selectedColorSequence = [];
+    const display = document.getElementById('selectedColorsDisplay');
+    const feedbackEl = document.getElementById('puzzleFeedback'); // Get the feedback element
+    if (display) display.innerHTML = '';
+    if (feedbackEl) feedbackEl.innerHTML = ''; // Clear feedback message
+}
+
+function checkColorAnswer() {
+    const feedbackEl = document.getElementById('puzzleFeedback');
+    if (!feedbackEl) return;
+    const correctSequence = window.currentColorSequence;
+    if (!correctSequence) return displayFeedback(feedbackEl, "Error: Puzzle sequence not loaded.", false);
+
+    const isCorrect = JSON.stringify(selectedColorSequence) === JSON.stringify(correctSequence);
+    displayFeedback(feedbackEl, isCorrect ? "Perfect memory! Well done!" : "Incorrect sequence. Try again!", isCorrect);
+    if (isCorrect) {
+        setTimeout(() => { resetColorSelection(); nextPuzzle(); }, 1500);
+    }
+}
+
+// --- Memory Game Specific Helpers & Checker ---
+function initMemoryGame(gameCardsData) {
+    memoryGameState = {
+        flippedCardElements: [],
+        matchedPairs: 0,
+        attempts: 0,
+        isProcessing: false,
+        totalPairs: gameCardsData.length / 2
+    };
+    document.querySelectorAll('.memory-card').forEach(card => card.addEventListener('click', () => handleMemoryCardClick(card)));
+    updateMemoryStats();
+}
+
+function handleMemoryCardClick(cardElement) {
+    if (memoryGameState.isProcessing || cardElement.classList.contains('flipped') || cardElement.classList.contains('matched')) return;
+
+    cardElement.classList.add('flipped');
+    memoryGameState.flippedCardElements.push(cardElement);
+
+    if (memoryGameState.flippedCardElements.length === 2) {
+        memoryGameState.isProcessing = true;
+        memoryGameState.attempts++;
+        updateMemoryStats();
+        setTimeout(checkMemoryMatch, 1000);
     }
 }
 
 function checkMemoryMatch() {
-    const [card1, card2] = memoryFlipped;
+    const [card1, card2] = memoryGameState.flippedCardElements;
+    const feedbackEl = document.getElementById('puzzleFeedback');
 
-    if (card1.dataset.card === card2.dataset.card) {
+    if (card1.dataset.symbol === card2.dataset.symbol) {
         card1.classList.add('matched');
         card2.classList.add('matched');
-        memoryMatched.push(card1.dataset.card);
-
-        if (memoryMatched.length === currentPuzzleData.cards.length / 2) {
-            setTimeout(() => nextPuzzle(), 1000);
+        memoryGameState.matchedPairs++;
+        if (memoryGameState.matchedPairs === memoryGameState.totalPairs) {
+            if(feedbackEl) displayFeedback(feedbackEl, "All pairs found! Excellent memory!", true);
+            setTimeout(nextPuzzle, 2000);
         }
     } else {
         card1.classList.remove('flipped');
         card2.classList.remove('flipped');
-        card1.textContent = '?';
-        card2.textContent = '?';
     }
-
-    memoryFlipped = [];
+    memoryGameState.flippedCardElements = [];
+    memoryGameState.isProcessing = false;
+    updateMemoryStats();
 }
 
-function showWordPuzzle(content, puzzle) {
-    content.innerHTML = `
-        <div class="word-clue">${puzzle.clue}</div>
-        <input type="text" class="word-input" id="wordAnswer" placeholder="Enter your answer">
-        <button class="submit-btn" onclick="checkWordAnswer()">Submit</button>
-        <div id="wordFeedback" class="feedback" style="display: none;"></div>
-    `;
+function updateMemoryStats() {
+    const pairsFoundEl = document.getElementById('pairsFound');
+    const attemptsEl = document.getElementById('attempts');
+    if (pairsFoundEl) pairsFoundEl.textContent = memoryGameState.matchedPairs;
+    if (attemptsEl) attemptsEl.textContent = memoryGameState.attempts;
 }
 
-function checkWordAnswer() {
-    const answer = document.getElementById('wordAnswer').value.toLowerCase().trim();
-    const feedback = document.getElementById('wordFeedback');
 
-    if (answer === currentPuzzleData.answer.toLowerCase()) {
-        showFeedback(feedback, 'Correct! Great thinking!', true);
-        setTimeout(() => nextPuzzle(), 1500);
-    } else {
-        showFeedback(feedback, 'Not quite right. Think again!', false);
-    }
-}
+// ======== Main Puzzle System & Book Handling ========
+const puzzleHandlers = { math: showMathPuzzle, word: showWordPuzzle, logic: showLogicPuzzle, pattern: showPatternPuzzle, color: showColorPuzzle, memory: showMemoryPuzzle };
 
-function showPatternPuzzle(content, puzzle) {
-    content.innerHTML = `
-        <p>Click the cells to match the pattern:</p>
-        <div class="pattern-grid" id="patternGrid"></div>
-        <button class="submit-btn" onclick="checkPattern()">Submit</button>
-        <div id="patternFeedback" class="feedback" style="display: none;"></div>
-    `;
+async function openBook(index) {
+    currentBookIndex = index;
+    const key = `book${index}`;
+    await fetchAllPuzzles();
 
-    const grid = document.getElementById('patternGrid');
-    for (let i = 0; i < 25; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'pattern-cell';
-        cell.dataset.index = i;
-        cell.onclick = () => togglePatternCell(cell);
-        grid.appendChild(cell);
-    }
-}
-
-function togglePatternCell(cell) {
-    cell.classList.toggle('active');
-}
-
-function checkPattern() {
-    const cells = document.querySelectorAll('.pattern-cell');
-    const activeCells = [];
-
-    cells.forEach((cell, index) => {
-        if (cell.classList.contains('active')) {
-            activeCells.push(index);
+    if (!bookProgress[key] || (bookProgress[key].puzzles?.length || 0) < 6) {
+        if (allPuzzlesData.length > 0) {
+            bookProgress[key] = {
+                isCompleted: false, current: 0, completed: [],
+                puzzles: allPuzzlesData.sort(() => 0.5 - Math.random()).slice(0, 6)
+            };
+            saveBookProgress();
+        } else {
+            console.error('No puzzles available.');
+            if (puzzleContentElement) puzzleContentElement.innerHTML = '<p>Error: Could not load puzzles.</p>';
+            if (modal) modal.showModal();
+            return;
         }
-    });
-
-    const feedback = document.getElementById('patternFeedback');
-    const correctPattern = currentPuzzleData.pattern;
-
-    if (activeCells.length === correctPattern.length &&
-        activeCells.every(index => correctPattern.includes(index))) {
-        showFeedback(feedback, 'Perfect pattern match!', true);
-        setTimeout(() => nextPuzzle(), 1500);
-    } else {
-        showFeedback(feedback, 'Pattern doesn\'t match. Try again!', false);
+    }
+    if (bookProgress[key]?.puzzles?.length > 0) {
+        showPuzzleUI(bookProgress[key].current);
+        if (modal) modal.showModal();
     }
 }
 
-function showLogicPuzzle(content, puzzle) {
-    content.innerHTML = `
-        <div class="word-clue">${puzzle.question}</div>
-        <div class="logic-options" id="logicOptions"></div>
-        <button class="submit-btn" onclick="checkLogicAnswer()">Submit</button>
-        <div id="logicFeedback" class="feedback" style="display: none;"></div>
-    `;
-
-    const options = document.getElementById('logicOptions');
-    puzzle.options.forEach((option, index) => {
-        const div = document.createElement('div');
-        div.className = 'logic-option';
-        div.textContent = option;
-        div.dataset.index = index;
-        div.onclick = () => selectLogicOption(div);
-        options.appendChild(div);
-    });
+function closeModal() {
+    if (modal) modal.close();
+    saveBookProgress();
 }
 
-function selectLogicOption(option) {
-    document.querySelectorAll('.logic-option').forEach(opt => opt.classList.remove('selected'));
-    option.classList.add('selected');
-}
-
-function checkLogicAnswer() {
-    const selected = document.querySelector('.logic-option.selected');
-    const feedback = document.getElementById('logicFeedback');
-
-    if (!selected) {
-        showFeedback(feedback, 'Please select an answer!', false);
+function showPuzzleUI(puzzleIndexInBook) {
+    const bookData = bookProgress[`book${currentBookIndex}`];
+    if (!bookData || !bookData.puzzles || puzzleIndexInBook >= bookData.puzzles.length) {
+        if (bookData) {
+            bookData.isCompleted = true;
+            saveBookProgress();
+            updateBookCards();
+        }
+        showCompletionUI();
         return;
     }
 
-    if (parseInt(selected.dataset.index) === currentPuzzleData.answer) {
-        showFeedback(feedback, 'Excellent reasoning!', true);
-        setTimeout(() => nextPuzzle(), 1500);
-    } else {
-        showFeedback(feedback, 'Think about it more carefully!', false);
+    currentPuzzleData = bookData.puzzles[puzzleIndexInBook];
+    if (puzzleTitleElement) puzzleTitleElement.textContent = currentPuzzleData.title || `Puzzle ${puzzleIndexInBook + 1}`;
+    if (puzzleCounterElement) puzzleCounterElement.textContent = `${puzzleIndexInBook + 1} of ${bookData.puzzles.length}`;
+    if (progressFillElement) progressFillElement.style.width = `${(puzzleIndexInBook / bookData.puzzles.length) * 100}%`;
+    if (puzzleContentElement) puzzleContentElement.innerHTML = '';
+
+    const handler = puzzleHandlers[currentPuzzleData.type];
+    if (handler && puzzleContentElement) {
+        handler(puzzleContentElement, currentPuzzleData);
+    } else if (puzzleContentElement) {
+        puzzleContentElement.innerHTML = '<p>Error: Unknown puzzle type or content area missing.</p>';
     }
-}
-
-function showColorPuzzle(content, puzzle) {
-    colorSequenceInput = [];
-    content.innerHTML = `
-        <p>Remember and repeat the color sequence:</p>
-        <div class="color-display" id="colorDisplay"></div>
-        <p>Click the colors in the same order:</p>
-        <div class="color-display" id="colorInput"></div>
-        <button class="submit-btn" onclick="resetColorSequence()">Reset</button>
-        <div id="colorFeedback" class="feedback" style="display: none;"></div>
-    `;
-
-    showColorSequence(puzzle.sequence);
-    createColorInput();
-}
-
-function showColorSequence(sequence) {
-    const display = document.getElementById('colorDisplay');
-    display.innerHTML = '';
-
-    sequence.forEach((color, index) => {
-        setTimeout(() => {
-            const circle = document.createElement('div');
-            circle.className = 'color-circle active';
-            circle.style.backgroundColor = color;
-            display.appendChild(circle);
-
-            setTimeout(() => circle.classList.remove('active'), 800);
-        }, index * 1000);
-    });
-}
-
-function createColorInput() {
-    const colors = ['red', 'blue', 'green', 'yellow'];
-    const input = document.getElementById('colorInput');
-
-    colors.forEach(color => {
-        const circle = document.createElement('div');
-        circle.className = 'color-circle';
-        circle.style.backgroundColor = color;
-        circle.onclick = () => addColorToSequence(color);
-        input.appendChild(circle);
-    });
-}
-
-function addColorToSequence(color) {
-    colorSequenceInput.push(color);
-
-    if (colorSequenceInput.length === currentPuzzleData.sequence.length) {
-        checkColorSequence();
-    }
-}
-
-function checkColorSequence() {
-    const feedback = document.getElementById('colorFeedback');
-    const correct = colorSequenceInput.every((color, index) =>
-        color === currentPuzzleData.sequence[index]
-    );
-
-    if (correct) {
-        showFeedback(feedback, 'Perfect sequence!', true);
-        setTimeout(() => nextPuzzle(), 1500);
-    } else {
-        showFeedback(feedback, 'Wrong sequence. Try again!', false);
-        colorSequenceInput = [];
-    }
-}
-
-function resetColorSequence() {
-    colorSequenceInput = [];
-    document.getElementById('colorFeedback').style.display = 'none';
-}
-
-function showFeedback(element, message, isCorrect) {
-    element.textContent = message;
-    element.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-    element.style.display = 'block';
 }
 
 function nextPuzzle() {
-    gameData.completedPuzzles.push(gameData.currentPuzzle);
-    gameData.currentPuzzle++;
-    saveProgress();
-    showPuzzle(gameData.currentPuzzle);
+    const bookData = bookProgress[`book${currentBookIndex}`];
+    if (!bookData) return;
+    bookData.current++;
+    saveBookProgress();
+    showPuzzleUI(bookData.current);
+    updateBookCards();
 }
 
-function completeAllPuzzles() {
-    gameData.isCompleted = true;
-    saveProgress();
-    showCompletion();
+function showCompletionUI() {
+    if (puzzleContentElement) {
+        puzzleContentElement.innerHTML = `
+            <div class="completion-message">
+                <div class="completion-title">Book Complete!</div>
+                <div class="completion-text">You've completed all puzzles for this book!</div>
+            </div>`;
+    }
+    if (puzzleTitleElement) puzzleTitleElement.textContent = 'All Puzzles Complete!';
+    if (puzzleCounterElement) puzzleCounterElement.textContent = 'Challenge Finished';
+    if (progressFillElement) progressFillElement.style.width = '100%';
 }
 
-function showCompletion() {
-    document.getElementById('puzzleContent').innerHTML = `
-        <div class="completion-message">
-            <div class="completion-title">🎉 Congratulations! 🎉</div>
-            <div class="completion-text">
-                You've successfully completed all 6 puzzles!<br>
-                Your problem-solving skills are impressive!
-            </div>
-        </div>
-    `;
-
-    document.getElementById('puzzleTitle').textContent = 'All Complete!';
-    document.getElementById('puzzleCounter').textContent = 'Challenge Finished';
-    document.getElementById('progressFill').style.width = '100%';
+// ======== Book Unlocking, Reset & UI Update ========
+function confirmResetBook() {
+    if (confirm("Reset all progress for this book? This cannot be undone.")) {
+        resetCurrentBook();
+    }
 }
 
-loadProgress();
+async function resetCurrentBook() {
+    const key = `book${currentBookIndex}`;
+    await fetchAllPuzzles();
+    if (bookProgress[key] && allPuzzlesData.length > 0) {
+        bookProgress[key] = {
+            ...bookProgress[key],
+            current: 0, completed: [], isCompleted: false,
+            puzzles: allPuzzlesData.sort(() => 0.5 - Math.random()).slice(0, 6)
+        };
+        saveBookProgress();
+        showPuzzleUI(0);
+        updateBookCards();
+    } else if (puzzleContentElement) {
+        puzzleContentElement.innerHTML = "<p>Error: Cannot reset book, puzzle data unavailable.</p>";
+    }
+}
+
+function applyCardState(card, statusTextEl, isLocked, statusMessage, addLockIcon = false) {
+    if (statusTextEl) statusTextEl.textContent = statusMessage;
+    card.classList.toggle('locked-card', isLocked);
+    
+    const bookCoverFigure = card.querySelector('.book-cover');
+    if (!bookCoverFigure) return;
+
+    bookCoverFigure.querySelector('.lock-icon')?.remove();
+    bookCoverFigure.querySelector('.unlock-text')?.remove();
+
+    if (isLocked && addLockIcon) {
+        const lockIconDiv = document.createElement('div');
+        lockIconDiv.className = 'lock-icon';
+        lockIconDiv.innerHTML = '<i class="fa-solid fa-lock"></i>';
+        
+        const unlockTextP = document.createElement('p');
+        unlockTextP.className = 'unlock-text';
+        unlockTextP.innerHTML = 'Solve previous puzzle<br>to unlock';
+
+        bookCoverFigure.appendChild(lockIconDiv);
+        bookCoverFigure.appendChild(unlockTextP);
+    }
+}
+
+function updateBookCards() {
+    const cards = document.querySelectorAll('.book-card');
+    let booksCompletedCount = 0;
+
+    cards.forEach((card, i) => {
+        const key = `book${i}`;
+        const progressData = bookProgress[key];
+        const statusTextEl = card.querySelector('.book-status');
+        let isLocked = i !== 0 && !(bookProgress[`book${i - 1}`]?.isCompleted);
+        let statusMessage;
+
+        if (isLocked) {
+            statusMessage = 'Locked';
+            applyCardState(card, statusTextEl, true, statusMessage, true);
+        } else {
+            if (progressData?.isCompleted) {
+                const numPuzzles = progressData.puzzles?.length || 6;
+                statusMessage = `Completed (${numPuzzles}/${numPuzzles})`;
+                booksCompletedCount++;
+            } else {
+                const numPuzzles = progressData?.puzzles?.length || 6;
+                statusMessage = `In Progress (${progressData?.current || 0}/${numPuzzles})`;
+            }
+            applyCardState(card, statusTextEl, false, statusMessage);
+        }
+    });
+
+    const overallProgressTracker = document.getElementById('overallProgress');
+    if (overallProgressTracker) {
+        overallProgressTracker.textContent = `Books Completed: ${booksCompletedCount} of ${cards.length}`;
+    }
+}
+
+// ======== Init on Page Load ========
+function initBookClicks() {
+    document.querySelectorAll('.book-card').forEach((card, i) => {
+        card.addEventListener('click', (event) => {
+            if (event.target.closest('select')) return;
+            if (!card.classList.contains('locked-card')) {
+                openBook(i);
+            }
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    loadBookProgress();
+    await fetchAllPuzzles();
+    updateBookCards();
+    initBookClicks();
+});

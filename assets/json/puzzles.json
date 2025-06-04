@@ -1,0 +1,96 @@
+[
+    {
+      "title": "Math Challenge 1",
+      "type": "math",
+      "question": "15 × 7 + 23 = ?",
+      "answer": 128,
+      "hint": "Remember order of operations (PEMDAS/BODMAS). Multiplication first!"
+    },
+    {
+      "title": "Word Riddle 1",
+      "type": "word",
+      "clue": "I have keys but no locks. I have space but no room. You can enter, but you can't go outside. What am I?",
+      "answer": "keyboard",
+      "hint": "It's something you use with a computer."
+    },
+    {
+      "title": "Logic Puzzle 1",
+      "type": "logic",
+      "question": "If all roses are flowers, and some flowers are red, which statement must be true?",
+      "options": [
+        "All flowers are roses",
+        "Some roses might be red",
+        "All red things are flowers",
+        "No roses are red"
+      ],
+      "answer": 1,
+      "hint": "Consider what you know for sure. 'Some' doesn't mean 'all'."
+    },
+    {
+      "title": "Pattern Recognition 1",
+      "type": "pattern",
+      "pattern": [0, 2, 4, 11, 13, 15, 22, 24],
+      "answer": 26,
+      "hint": "Look for groups of numbers and the operation between them."
+    },
+    {
+      "title": "Color Memory 1",
+      "type": "color",
+      "sequence": ["red", "blue", "green", "yellow", "red"],
+      "hint": "The sequence starts and ends with the same color."
+    },
+    {
+      "title": "Word Riddle 2",
+      "type": "word",
+      "clue": "What comes once in a minute, twice in a moment, but never in a thousand years?",
+      "answer": "m",
+      "hint": "Think about the letters in the words."
+    },
+    {
+      "title": "Number Logic 1",
+      "type": "math",
+      "question": "What is the next number in the sequence? 2, 4, 8, 16, __",
+      "answer": 32,
+      "hint": "Each number is a multiple of the previous one."
+    },
+    {
+      "title": "Symbol Memory 1",
+      "type": "memory",
+      "cards": ["🍎", "🍌", "🍇", "🍓"],
+      "hint": "There are four unique fruits."
+    },
+    {
+        "title": "Math Challenge 2",
+        "type": "math",
+        "question": "If a train travels at 60 mph, how far will it travel in 2.5 hours?",
+        "answer": 150,
+        "hint": "Distance = Speed × Time."
+    },
+    {
+        "title": "Word Riddle 3",
+        "type": "word",
+        "clue": "What has an eye, but cannot see?",
+        "answer": "needle",
+        "hint": "It's often used for sewing."
+    },
+    {
+        "title": "Logic Puzzle 2",
+        "type": "logic",
+        "question": "A farmer has 17 sheep. All but nine died. How many are left?",
+        "options": ["17", "8", "9", "0"],
+        "answer": 2,
+        "hint": "Read the phrase 'All but nine' carefully."
+    },
+    {
+        "title": "Color Memory 2",
+        "type": "color",
+        "sequence": ["blue", "yellow", "blue", "green"],
+        "hint": "The first color appears twice."
+    },
+    {
+        "title": "Symbol Memory 2",
+        "type": "memory",
+        "cards": ["⭐", "🌙", "☀️", "☁️"],
+        "hint": "Think about things in the sky."
+    }
+]

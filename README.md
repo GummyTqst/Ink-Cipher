@@ -2,6 +2,10 @@
 
 **Ink & Cipher** is an interactive, story-driven puzzle platform where users unlock beautifully illustrated books through engaging cipher and word challenges. The experience blends narrative exploration with gamified progression.
 
+
+## Figma link: 
+https://www.figma.com/design/KBVyFTTdDzrDW4xK4gTR6V/Indie-Projeckt?node-id=4-72&t=HI7kJ2zWgeN2UkMT-0
+
 ---
 
 ## 🧩 Concept
@@ -143,7 +147,6 @@ InkAndCipher/
 ├── /home → Intro screen with CTA
 ├── /puzzles → Puzzle challenges (modal-based)
 ├── /collection → Owned books (locked/unlocked)
-├── /shop → Purchase interface & bundle builder
 ├── /progress → Achievements, charts, activity
 │
 ├── /components → BookCard, PuzzleModal, ProgressBar
